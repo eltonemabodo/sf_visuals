@@ -20,7 +20,8 @@ required_packages <- c(
   "showtext",
   "sysfonts",
   "showtext",
-  "webshot2"
+  "webshot2",
+  "ggtext"
 )
 
 # Install any missing packages
