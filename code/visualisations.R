@@ -1,24 +1,10 @@
 ### Visualisations
-
-
-costs_data %>% 
-  select(year, costs, dollars) %>% 
-  pivot_longer(
-    cols = -year,
-    names_to = "type",
-    values_to = "amount"
-  ) %>% 
-  mutate(type = recode(type, 
-                       costs = "Associated\nCosts", 
-                       dollars = "Value of\nContributions")) %>%
-  ggplot(aes(x = year, y = amount, fill = type)) +
-  geom_bar(stat = "identity", position = "stack")
-
+#1. The history of school feeding in Cambodia
 
 sf_trend_graph <- ggplot(schools_data, aes(x = year_date, 
                                    y = value, fill = type
                                    )) +
-  geom_bar(stat = "identity", position = "stack") + 
+  geom_bar(stat = "identity", linewidth = 0.9, colour = "white", position = "stack") + 
   guides(fill = guide_legend(override.aes = list(shape = 21))) + 
   scale_x_date(
     expand = c(0, 0),  # Add some space on the right
@@ -89,3 +75,37 @@ ggsave(
   plot = sf_trend_graph,
   width = 10, height = 7, dpi = 300
 )
+
+
+############################################################################################
+
+students_data %>% 
+  pivot_longer(
+    cols = -year,
+    names_to = "type",
+    values_to = "students"
+  ) %>% 
+  filter(type != "sm_students") %>%
+  ggplot(aes(x = year, y = students, colour = type, fill = type, group = type)) +
+  geom_line(size = 1.2) +
+  #geom_point(size = 3) +
+  geom_area(
+    position = "identity",
+    alpha = 0.3,
+    show.legend = TRUE
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
