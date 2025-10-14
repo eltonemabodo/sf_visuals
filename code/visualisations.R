@@ -362,8 +362,8 @@ schools_graph <- schools_perc_data %>%
   ) +
   scale_x_date(
     expand = c(0, 0),  # Add some space on the right
-    breaks = label_cumulative_students_df$year_date,  # only every 3rd date
-    labels = label_cumulative_students_df$year        # show "1999-00", "2002-03", etc.
+    breaks = label_schools_perc_df$year_date,  # only every 3rd date
+    labels = label_schools_perc_df$year        # show "1999-00", "2002-03", etc.
   ) +
   scale_y_continuous(
     labels = scales::comma,  # Format y-axis with commas
