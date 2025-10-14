@@ -214,12 +214,14 @@ ggsave(
 
 ben_perc_graph <- beneficiaries_perc_data %>% 
   ggplot(aes(x = year_date, y = percentage, group = type, color = type)) +
-  geom_line(size = 1.1,  aes(colour = type)) +
-  geom_point(size = 2.5, shape = 21, aes(fill = type), color = "white", stroke = 1.3) +
+  geom_line(size = 1.1,  aes(colour = type), show.legend = FALSE) +
+  geom_point(size = 2.5, shape = 21, 
+             aes(fill = type), color = "white", stroke = 1.3,
+             show.legend = FALSE) +
   scale_x_date(
     limits = c(
       min(label_beneficiaries_perc_df$year_date),
-      max(label_beneficiaries_perc_df$year_date) + lubridate::years(6)  # extend by 2 years (adjust as needed)
+      max(label_beneficiaries_perc_df$year_date) + lubridate::years(7)  # extend by 2 years (adjust as needed)
     ),
     expand = c(0, 0),
     breaks = label_beneficiaries_perc_df$year_date,  # only every 3rd date
@@ -228,8 +230,8 @@ ben_perc_graph <- beneficiaries_perc_data %>%
   scale_y_continuous(
     labels = scales::percent_format(scale = 1),  # Format y-axis as percentage
     expand = c(0, 0),  # Remove extra space on the y-axis
-    limits = c(0, 30), 
-    breaks = seq(10, 30, by = 10)
+    limits = c(0, 25), 
+    breaks = seq(5, 25, by = 5)
   ) +
   scale_color_manual(
     values = c(
@@ -247,9 +249,56 @@ ben_perc_graph <- beneficiaries_perc_data %>%
     ),
     labels = c("Total Students", "WFP Students", "NHGSF Students")
   ) +
+  annotate(
+    "rect",
+    xmin = as.Date("2019-10-01"), xmax = max(label_beneficiaries_perc_df$year_date) + lubridate::years(7),
+    ymin = 0, ymax = 25,
+    alpha = 0.13,
+    fill = "#3C467B"
+  ) + 
+  annotate(
+    "text",
+    x = as.Date("2022-10-01"), y = 23,
+    label = "Handover Phase",
+    lineheight = 0.9,
+    colour = "#3C467B",
+    family = "opensans_extrabold",
+    size = 4.5,
+    hjust = 0
+  )+
+  annotate(
+    "text",
+    x = as.Date("2025-02-01"), y = 14.8,
+    label = "Total Relative\nBeneficiaries (14.8%)",
+    lineheight = 0.9,
+    colour = "#3C467B",
+    family = "opensans_extrabold",
+    size = 4,
+    hjust = 0
+  ) +
+  annotate(
+    "text",
+    x = as.Date("2025-02-01"), y = 5,
+    label = "WFP's Relative\nContribution (5.67%)",
+    lineheight = 0.9,
+    colour = "#FCC61D",
+    family = "opensans_extrabold",
+    size = 4,
+    hjust = 0
+  ) +
+  annotate(
+    "text",
+    x = as.Date("2025-02-01"), y = 9.5,
+    label = "NHGSF's Relative\nContribution (9.13%)",
+    lineheight = 0.9,
+    colour = "#954C2E",
+    family = "opensans_extrabold",
+    size = 4,
+    hjust = 0
+  ) +
   labs(
     title = "Percentage of Students Benefiting from School Feeding in Cambodia",
-    subtitle = "The percentage of students benefiting from school feeding programs has steadily increased since the program's inception.",
+    subtitle = "The percentage of students benefiting from school feeding program relative to the total number of primary\nschool students in Cambodia. Since its inception in 1999, the program has benefited an average of 15.2% of\nstudents annually",
     x = "School Calendar Year",
     y = "Percentage of Students",
     caption = "**Source:** WFP Cambodia School Feeding Data (1999-2025)<br><br>**Visualisation:** RAM Unit"
@@ -280,8 +329,8 @@ ben_perc_graph <- beneficiaries_perc_data %>%
                                 colour = "#3C467B"),
     axis.text.y = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B"),
     axis.text.x = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B", hjust = 0.5),
-    axis.ticks.x = element_line(colour = "#3C467B"),
-    axis.ticks.y = element_blank(),
+    axis.ticks = element_line(colour = "#3C467B"),
+    axis.line = element_line(colour = "#3C467B"),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(colour = "#C5C7BC", linetype = 3),
     legend.text = element_text(size = 12, family = "opensans_light", colour = "#3C467B"),
