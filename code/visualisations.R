@@ -212,24 +212,46 @@ ggsave(
 
 # Cumulative Students Graph
 
-cummulative_students_graph <- cumulative_students_data %>% 
-  ggplot(aes(x = year_date, y = cumulative_students)) +
-  geom_line(size = 1, colour = "#3C467B", linetype = 3) +
-  geom_point(size = 3, colour = "#3C467B") +
+ben_perc_graph <- beneficiaries_perc_data %>% 
+  ggplot(aes(x = year_date, y = percentage, group = type, color = type)) +
+  geom_line(size = 1.1,  aes(colour = type)) +
+  geom_point(size = 2.5, shape = 21, aes(fill = type), color = "white", stroke = 1.3) +
   scale_x_date(
-    expand = c(0, 0),  # Add some space on the right
-    breaks = label_cumulative_students_df$year_date,  # only every 3rd date
-    labels = label_cumulative_students_df$year        # show "1999-00", "2002-03", etc.
+    limits = c(
+      min(label_beneficiaries_perc_df$year_date),
+      max(label_beneficiaries_perc_df$year_date) + lubridate::years(6)  # extend by 2 years (adjust as needed)
+    ),
+    expand = c(0, 0),
+    breaks = label_beneficiaries_perc_df$year_date,  # only every 3rd date
+    labels = label_beneficiaries_perc_df$year        # show "1999-00", "2002-03", etc.
   ) +
   scale_y_continuous(
-    labels = scales::comma,  # Format y-axis with commas
-    expand = c(0, 0)  # Remove extra space on the y-axis
+    labels = scales::percent_format(scale = 1),  # Format y-axis as percentage
+    expand = c(0, 0),  # Remove extra space on the y-axis
+    limits = c(0, 30), 
+    breaks = seq(10, 30, by = 10)
+  ) +
+  scale_color_manual(
+    values = c(
+      "perc_tot" = "#3C467B",
+      "perc_wfp" = "#FCC61D",
+      "perc_nhgsf" = "#954C2E"
+    ),
+    labels = c("Total Students", "WFP Students", "NHGSF Students")
+  ) +
+  scale_fill_manual(
+    values = c(
+      "perc_tot" = "#3C467B",
+      "perc_wfp" = "#FCC61D",
+      "perc_nhgsf" = "#954C2E"
+    ),
+    labels = c("Total Students", "WFP Students", "NHGSF Students")
   ) +
   labs(
-    title = "Cumulative Students Benefiting from School Feeding in Cambodia",
-    subtitle = "The cumulative number of students benefiting from school feeding programs has reached over\n4 million since the program's inception in 1999.",
+    title = "Percentage of Students Benefiting from School Feeding in Cambodia",
+    subtitle = "The percentage of students benefiting from school feeding programs has steadily increased since the program's inception.",
     x = "School Calendar Year",
-    y = "Cumulative Number of Students",
+    y = "Percentage of Students",
     caption = "**Source:** WFP Cambodia School Feeding Data (1999-2025)<br><br>**Visualisation:** RAM Unit"
   ) +
   theme_minimal() + 
@@ -256,7 +278,8 @@ cummulative_students_graph <- cumulative_students_data %>%
     axis.title.y = element_text(size = 14, family = "opensans_extrabold",
                                 margin = margin(r = 10),
                                 colour = "#3C467B"),
-    axis.text = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B"),
+    axis.text.y = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B"),
+    axis.text.x = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B", hjust = 0.5),
     axis.ticks.x = element_line(colour = "#3C467B"),
     axis.ticks.y = element_blank(),
     panel.grid.minor = element_blank(),
@@ -266,20 +289,14 @@ cummulative_students_graph <- cumulative_students_data %>%
     legend.position = "bottom",
     legend.title = element_blank()
   )
-# Save the cumulative students graph
 
+
+
+# Save the beneficiaries percentage graph
 ggsave(
-  filename = here::here("figures", "cumulative_students_benefiting_school_feeding.png"),
-  plot = cummulative_students_graph,
+  filename = here::here("figures", "beneficiaries_percentage_school_feeding.png"),
+  plot = ben_perc_graph,
+  bg = "white",
   width = 10, height = 7, dpi = 300
 )
-
-
-
-
-
-
-
-
-
-
+########################################################################################################

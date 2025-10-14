@@ -64,12 +64,22 @@ label_cumulative_students_df <- cumulative_students_data %>%
 
 
 beneficiaries_perc_data <- trend_data %>% 
-  select(year,nat_students, total_students) %>% 
+  select(year,nat_students, wfp_students, nhgsf_students, total_students) %>% 
   mutate(
-    perc =  total_students/nat_students  * 100,
-    start_year = substr(year, 1, 4),
-    year_date = ymd(paste0(start_year, "-10-01"))
-  ) 
+    perc_tot =  total_students/nat_students  * 100,
+    perc_wfp = wfp_students/nat_students * 100,
+    perc_nhgsf = nhgsf_students/nat_students * 100
+  ) %>% 
+  select(year, perc_tot, perc_wfp, perc_nhgsf) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "type",
+    values_to = "percentage"
+  ) %>%
+  mutate(start_year = substr(year, 1, 4),
+         year_date = ymd(paste0(start_year, "-10-01")),
+         percentage = if_else(percentage == 0, NA_real_, percentage)) %>% 
+  filter(start_year != "1999")
 
 label_beneficiaries_perc_df <- beneficiaries_perc_data %>%
   slice(seq(1, n(), by = 10))
