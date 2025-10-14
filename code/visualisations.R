@@ -385,9 +385,27 @@ schools_graph <- schools_perc_data %>%
     alpha = 0.2,
     fill = "#3C467B"
   ) + 
+  annotate(
+    "segment",
+    x = as.Date("2014-04-01"), y = 13500,
+    xend = as.Date("2017-04-01"), yend = 13500,
+    colour = "#3C467B",
+    size = 0.5,
+    arrow = arrow(length = unit(0.2, "cm"), type = "closed", ends = "first")
+  ) +
+  annotate(
+    "text",
+    x = as.Date("2017-08-01"), y = 13500,
+    label = "Around 60% of schools\nin Cambodia were in the\nSFP from 2011 to 2014",
+    lineheight = 0.9,
+    colour = "#3C467B",
+    family = "opensans_extrabold",
+    size = 4.5,
+    hjust = 0
+  ) +
   labs(
     title = "Schools Benefiting from School Feeding in Cambodia",
-    subtitle = "The number of schools benefiting from school feeding programs has increased significantly since 1999,\naveraging ~3,000 beneficiaries per year.",
+    subtitle = "Although the number of schools in the School Feeding Program (SFP) started low, they gradually increased\nto around 60% of all schools in Cambodia by 2014. Thereafter, they declined and currently represent only\n~15% of all schools in the country.",
     x = "School Calendar Year",
     y = "Number of Schools",
     fill = "Program Type",
