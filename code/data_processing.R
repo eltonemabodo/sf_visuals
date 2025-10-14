@@ -84,3 +84,34 @@ beneficiaries_perc_data <- trend_data %>%
 label_beneficiaries_perc_df <- beneficiaries_perc_data %>%
   slice(seq(1, n(), by = 10))
 #############################################################################################
+
+## Schools Data
+
+schools_perc_data <- trend_data %>% 
+  select(year, tot_schl, total_schools) %>% 
+  rename(
+    sfp_sch = tot_schl,
+    nat_schools = total_schools
+  ) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "type",
+    values_to = "number"
+  ) %>% 
+  mutate(
+    start_year = substr(year, 1, 4),
+    year_date = ymd(paste0(start_year, "-10-01"))) %>% 
+  filter(start_year != "1999")
+
+
+label_schools_perc_df <- schools_perc_data %>%
+  slice(seq(1, n(), by = 10))
+
+#############################################################################################
+
+
+
+
+
+
+
