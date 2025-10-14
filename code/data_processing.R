@@ -1,7 +1,10 @@
 ## Data Cleaning and Preparation
 
 
-costs_data <- read_excel("data/costs.xlsx")
+costs_data <- read_excel("data/costs.xlsx") %>% 
+  filter(!is.na(dollars)) %>% 
+  mutate(year = as.integer(year)) %>% 
+  rename(rice_dollars = dollars)
 
 trend_data <- read_excel("data/trend_data.xlsx")
 
@@ -109,7 +112,14 @@ label_schools_perc_df <- schools_perc_data %>%
 
 #############################################################################################
 
-
+## Costs Data
+costs_data_data <- costs_data %>% 
+  select(year, rice_dollars, total_usd) %>%
+  pivot_longer(
+    cols = -year,
+    names_to = "type",
+    values_to = "costs"
+  )
 
 
 

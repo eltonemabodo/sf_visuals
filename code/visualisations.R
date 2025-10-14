@@ -456,3 +456,98 @@ ggsave(
   width = 10, height = 7, dpi = 300
 )
 ########################################################################################################
+
+
+
+gvnt_costs <- costs_data_data %>% 
+  ggplot(aes(x = year, y = costs, fill = type)) +
+  geom_line(
+    aes(colour = type, group = type),
+    size = 1.1
+  ) +
+  geom_point(
+    aes(fill = type),
+    size = 2.5,
+    shape = 21,
+    color = "white",
+    stroke = 1.3,
+    show.legend = FALSE
+  ) +
+  scale_fill_manual(
+    values = c(
+      "total_usd" = "#3C467B",
+      "rice_dollars" = "#FCC61D"
+    ),
+    labels = c("WFP Costs", "NHGSF Costs", "Total Costs")
+  ) + 
+  scale_color_manual(
+    values = c(
+      "total_usd" = "#3C467B",
+      "rice_dollars" = "#FCC61D"
+    ),
+    labels = c("Total Rice\nContribution", "Total Government\nContribution")
+  ) +
+  scale_x_continuous(
+    #expand = c(0, NA),  # Remove extra space on the x-axis
+    breaks = seq(1999, 2025, by = 2)  # only every 2nd year
+  ) +
+  scale_y_continuous(
+    labels = scales::comma,  # Format y-axis with commas
+    expand = c(0, 0),  # Remove extra space on the y-axis
+    limits = c(0, 2500000),  # Set y-axis limits
+    breaks = c(1000000, 2000000, 2500000)
+  ) +
+  labs(
+    title = "Government Contribution to the School Feeding Program in Cambodia",
+    subtitle = "Historical annual government contribution to the School Feeding Program (SFP) in Cambodia.",
+    x = "Year",
+    y = "Costs in USD",
+    fill = "Program Type",
+    colour = "Program Type",
+    caption = "**Source:** WFP Cambodia School Feeding Data (1999-2025)<br><br>**Visualisation:** RAM Unit"
+  ) +
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 18,
+                              family = "opensans_extrabold",
+                              margin = margin(b = 10),
+                              colour = "#3C467B"),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(size = 15,
+                                 family = "opensans_light",
+                                 face = "italic",
+                                 margin = margin(b = 20),
+                                 colour = "#3C467B"),
+    plot.caption = element_markdown(size = 12,
+                                    family = "opensans_light",
+                                    margin = margin(t = 20),
+                                    hjust = 0,
+                                    colour = "#3C467B"),
+    plot.caption.position = "plot",
+    axis.title.x = element_text(size = 14, family = "opensans_extrabold",
+                                margin = margin(t = 15),
+                                colour = "#3C467B"),
+    axis.title.y = element_text(size = 14, family = "opensans_extrabold",
+                                margin = margin(r = 10),
+                                colour = "#3C467B"),
+    axis.text.y = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B"),
+    axis.text.x = element_text(size = 12, family = "opensans_extrabold", colour = "#3C467B", hjust = 0.5),
+    axis.ticks.x = element_line(colour = "#3C467B"),
+    axis.ticks.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "#C5C7BC", linetype = 3),
+    legend.text = element_text(size = 12, family = "opensans_light", colour = "#3C467B"),
+    legend.key.size = unit(0.4, "cm"),
+    legend.position = "bottom",
+    legend.title = element_blank()
+  )
+
+# Save the costs graph
+ggsave(
+  filename = here::here("figures", "costs_school_feeding.png"),
+  plot = gvnt_costs,
+  bg = "white",
+  width = 10, height = 7, dpi = 300
+)
+########################################################################################################
+  
