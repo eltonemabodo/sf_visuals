@@ -73,7 +73,7 @@ sf_trend_graph <- ggplot(schools_data, aes(x = year_date,
 ggsave(
   filename = here::here("figures", "school_feeding_trend.png"),
   plot = sf_trend_graph,
-  bjg = "white",
+  bg = "white",
   width = 10, height = 7, dpi = 300
 )
 
@@ -100,7 +100,7 @@ students_graph <- students_data %>%
     labels = scales::comma,  # Format y-axis with commas
     expand = c(0, 0),  # Remove extra space on the y-axis
     limits = c(0, 800000),  # Set y-axis limits
-    breaks = c(200000, 300000, 400000, 500000, 600000, 700000, 800000)) +
+    breaks = c(200000, 400000, 600000, 800000)) +
   scale_color_manual(
     values = c(
       "wfp_students" =  "#3C467B",
