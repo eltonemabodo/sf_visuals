@@ -221,7 +221,7 @@ ben_perc_graph <- beneficiaries_perc_data %>%
   scale_x_date(
     limits = c(
       min(label_beneficiaries_perc_df$year_date),
-      max(label_beneficiaries_perc_df$year_date) + lubridate::years(7)  # extend by 2 years (adjust as needed)
+      max(label_beneficiaries_perc_df$year_date) + lubridate::years(7)  # extend by 7 years 
     ),
     expand = c(0, 0),
     breaks = label_beneficiaries_perc_df$year_date,  # only every 3rd date
