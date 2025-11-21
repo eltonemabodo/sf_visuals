@@ -214,7 +214,7 @@ ggsave(
 
 ben_perc_graph <- beneficiaries_perc_data %>% 
   ggplot(aes(x = year_date, y = percentage, group = type, color = type)) +
-  geom_line(size = 1.1,  aes(colour = type), show.legend = FALSE) +
+  geom_line(linewidth = 1.1,  aes(colour = type), show.legend = FALSE) +
   geom_point(size = 2.5, shape = 21, 
              aes(fill = type), color = "white", stroke = 1.3,
              show.legend = FALSE) +
@@ -348,6 +348,16 @@ ggsave(
   bg = "white",
   width = 10, height = 7, dpi = 300
 )
+
+## Save a shorter version of the graph
+
+ggsave(
+  filename = here::here("figures", "beneficiaries_percentage_school_feeding_2.png"),
+  plot = ben_perc_graph,
+  bg = "white",
+  width = 10, height = 6, dpi = 300
+)
+
 ########################################################################################################
 
 # Schools vs SFP Schools Graph
